@@ -1,0 +1,11 @@
+# ArgoCD Image Updater (write-back=argocd) overrides the image digest here.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+images:
+  - name: registry.121.78.39.181.sslip.io/cloudbro-sample
+    newTag: latest

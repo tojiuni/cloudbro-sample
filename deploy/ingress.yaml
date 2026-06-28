@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata: { name: cloudbro-sample-tls, namespace: cloudbro-sample }
+spec:
+  secretName: cloudbro-sample-tls
+  issuerRef: { name: cloudbro-ca-issuer, kind: ClusterIssuer, group: cert-manager.io }
+  dnsNames: ["sample.121.78.39.181.sslip.io"]
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata: { name: cloudbro-sample, namespace: cloudbro-sample }
+spec:
+  entryPoints: [websecure]
+  routes:
+    - match: Host(`sample.121.78.39.181.sslip.io`)
+      kind: Rule
+      services:
+        - { name: cloudbro-sample, port: 80 }
+  tls: { secretName: cloudbro-sample-tls }

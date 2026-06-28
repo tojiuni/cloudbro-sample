@@ -1,0 +1,11 @@
+# toji-ci 스타일 CI 설정 — 이 repo를 빌드하는 방법을 선언.
+# cloudbro Tekton 파이프라인(git-clone → kaniko build → push)이 참조.
+name: cloudbro-sample
+build:
+  context: app            # Dockerfile 위치
+  dockerfile: app/Dockerfile
+  image: registry.121.78.39.181.sslip.io/cloudbro-sample
+test:
+  skip: true              # 정적 사이트 — 테스트 없음
+deploy:
+  manifests: deploy       # ArgoCD가 watch하는 경로

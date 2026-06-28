@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudbro-sample
+  namespace: cloudbro-sample
+  labels: { app: cloudbro-sample }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: cloudbro-sample } }
+  template:
+    metadata: { labels: { app: cloudbro-sample } }
+    spec:
+      containers:
+        - name: web
+          image: registry.121.78.39.181.sslip.io/cloudbro-sample:latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 80 }]
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            periodSeconds: 5
+          resources:
+            requests: { cpu: 10m, memory: 16Mi }
+            limits: { cpu: 100m, memory: 64Mi }
